@@ -28,6 +28,10 @@ public class Deck {
 		return card;
 	}
 
+	public void dealCards(Hand hand) {
+		
+	}
+	
 	public int checkDeckSize() {
 		return deck.size();
 	}
