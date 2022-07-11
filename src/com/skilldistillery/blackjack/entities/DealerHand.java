@@ -3,6 +3,7 @@ package com.skilldistillery.blackjack.entities;
 public class DealerHand extends Hand implements PlayerLogic {
 
 	public DealerHand() {
+		super();
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class DealerHand extends Hand implements PlayerLogic {
 		int amountOfCards = 1;
 		for (Card card : this.getHand()) {
 			if(amountOfCards++ == 1) {
-				System.out.println("Hidden card value: ");
+				System.out.println("*** HIDDEN CARD *** ");
 			} else {
 				System.out.println(card.toString());
 			}
