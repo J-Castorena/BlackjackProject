@@ -1,9 +1,15 @@
 package com.skilldistillery.blackjack.entities;
 
-public class DealerHand extends Hand implements PlayerLogic {
+import java.util.Collections;
+import java.util.List;
 
-	public DealerHand() {
-		super();
+public class Dealer implements PlayerLogic {
+	
+	private Deck deck;
+	private BlackjackHand hand;
+	
+	public Dealer() {
+		hand = new BlackjackHand();
 	}
 
 	@Override
@@ -23,27 +29,23 @@ public class DealerHand extends Hand implements PlayerLogic {
 			return false;
 		}
 	}
+	
+	public Card dealCardToAPlayer(Deck deck) {
+		Card card = deck.dealCard();
+		return card;
+		
+	}
 
-	@Override
 	public void hit(Card card) {
-		super.addCard(card);
+		hand.addCard(card);
 	}
 
 	@Override
 	public void stay() {
 	}
 
-	@Override
 	public int getHandValue() {
-		int value = 0;
-		if (this.hand.size() > 0) {
-			for (Card card : this.hand) {
-				if (card != null) {
-					value = value + card.getValue();
-				}
-			}
-		}
-		return value;
+		return hand.getHandValue();
 	}
 	
 	public boolean canDealerHit() {
@@ -56,12 +58,22 @@ public class DealerHand extends Hand implements PlayerLogic {
 	
 	public void showHiddenHand() {
 		int amountOfCards = 1;
-		for (Card card : this.getHand()) {
+		for (Card card : hand.getHand()) {
 			if(amountOfCards++ == 1) {
 				System.out.println("*** HIDDEN CARD *** ");
 			} else {
 				System.out.println(card.toString());
 			}
 		}
+	}
+	
+	public void printHand() {
+		for (Card card : hand.getHand()) {
+			System.out.println(card.toString());
+		}
+	}
+	
+	public void shuffle() {
+		Collections.shuffle((List<?>) this.deck);
 	}
 }

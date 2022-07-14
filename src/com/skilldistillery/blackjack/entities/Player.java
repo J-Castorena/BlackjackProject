@@ -1,15 +1,22 @@
 package com.skilldistillery.blackjack.entities;
 
-public class PlayerHand extends Hand implements PlayerLogic {
-	public PlayerHand() {
-		super();
+public class Player implements PlayerLogic {
+
+	private BlackjackHand hand;
+
+	public Player() {
+		hand = new BlackjackHand();
 	}
-	
+
+	public void getCardFromDealer(Card card) {
+		hand.addCard(card);
+	}
+
 	public int getHandValue() {
 
 		int value = 0;
-		if (this.hand.size() > 0) {
-			for (Card card : this.hand) {
+		if (hand.getHandSize() > 0) {
+			for (Card card : hand.getHand()) {
 				if (card != null) {
 					value = value + card.getValue();
 				}
@@ -29,7 +36,7 @@ public class PlayerHand extends Hand implements PlayerLogic {
 
 	@Override
 	public boolean isBust() {
-		if(this.getHandValue() > 21) {
+		if (this.getHandValue() > 21) {
 			return true;
 		} else {
 			return false;
@@ -37,15 +44,13 @@ public class PlayerHand extends Hand implements PlayerLogic {
 	}
 
 	@Override
-	public void hit(Card card) {
-		super.addCard(card);
-	}
-
-	@Override
 	public void stay() {
 	}
 
-	
-	
-	
+	public void printHand() {
+		for (Card card : hand.getHand()) {
+			System.out.println(card.toString());
+		}
+	}
+
 }

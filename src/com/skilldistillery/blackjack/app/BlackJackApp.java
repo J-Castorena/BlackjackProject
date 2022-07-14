@@ -2,14 +2,14 @@ package com.skilldistillery.blackjack.app;
 
 import java.util.Scanner;
 
-import com.skilldistillery.blackjack.entities.DealerHand;
+import com.skilldistillery.blackjack.entities.Dealer;
 import com.skilldistillery.blackjack.entities.Deck;
-import com.skilldistillery.blackjack.entities.PlayerHand;
+import com.skilldistillery.blackjack.entities.Player;
 
 public class BlackJackApp {
 
-	private PlayerHand playerHand;
-	private DealerHand dealerHand;
+	private Player playerHand;
+	private Dealer dealerHand;
 	private Deck deck;
 
 	public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class BlackJackApp {
 		System.out.println(" _____________________________________");
 		System.out.println("|                                     |");
 		System.out.println("|              BLACK JACK             |");
-		System.out.println("|  .-------.-------.------.------.    |");   
+		System.out.println("|  .-------.-------.------.------.    |");
 		System.out.println("|  |A_  _  |A /\\   |A _   |A .   |    |");
 		System.out.println("|  |( \\/ ) | /  \\  | ( )  | / \\  |    |");
 		System.out.println("|  | \\  /  | \\  /  |(_x_) |(_,_) |    |");
@@ -35,8 +35,6 @@ public class BlackJackApp {
 		System.out.println("| May the odds ever be in your favor! |");
 		System.out.println("|_____________________________________|");
 	}
-	
-	
 
 	private void launch() {
 		Scanner userInput = new Scanner(System.in);
@@ -65,10 +63,10 @@ public class BlackJackApp {
 	}
 
 	private void playBlackJackGame(Scanner userInput) {
-		this.playerHand = new PlayerHand();
-		this.dealerHand = new DealerHand();
-		this.deck = new Deck();
-		this.deck.shuffle();
+		this.playerHand = new Player();
+		this.dealerHand = new Dealer();
+		deck = new Deck();
+		deck.shuffle();
 		drawFirstTwoCards();
 		printHands("Hidden");
 
@@ -139,8 +137,8 @@ public class BlackJackApp {
 	private void drawFirstTwoCards() {
 		System.out.println("First round of cards dealt to dealer and player. ");
 		for (int i = 0; i < 2; i++) {
-			this.playerHand.addCard(deck.dealCard());
-			this.dealerHand.addCard(deck.dealCard());
+			this.playerHand.getCardFromDealer(this.dealerHand.dealCardToAPlayer(deck));
+			this.dealerHand.hit(deck.dealCard());
 		}
 	}
 
@@ -150,7 +148,7 @@ public class BlackJackApp {
 		while (selection != 0 && selection != 1) {
 			selection = userInput.nextInt();
 			if (selection == 1) {
-				this.playerHand.addCard(deck.dealCard());
+				this.playerHand.getCardFromDealer(this.dealerHand.dealCardToAPlayer(deck));
 				System.out.println("Player chose to hit.");
 				return false;
 			} else if (selection == 0) {
@@ -166,18 +164,20 @@ public class BlackJackApp {
 	private void printHands(String keyWord) {
 		if (keyWord.equals("Hidden")) {
 			System.out.println("Dealer's Hand: ");
-			this.dealerHand.showHiddenHand();
+			if (this.dealerHand != null) {
+				this.dealerHand.showHiddenHand();
+			}
 		} else {
 			System.out.println("Dealer's Hand-- Hand Value: " + this.dealerHand.getHandValue());
-			this.dealerHand.showTheUnhiddenCard();
+			this.dealerHand.printHand();
 		}
 		System.out.println("Player's Hand-- Hand Value: " + this.playerHand.getHandValue());
-		this.playerHand.showTheUnhiddenCard();
+		this.playerHand.printHand();
 	}
 
 	private void dealerHit() {
 		while (this.dealerHand.canDealerHit()) {
-			this.dealerHand.addCard(deck.dealCard());
+			this.dealerHand.hit(deck.dealCard());
 		}
 	}
 

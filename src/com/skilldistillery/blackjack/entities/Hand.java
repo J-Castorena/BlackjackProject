@@ -5,9 +5,10 @@ import java.util.List;
 
 public abstract class Hand {
 
-	public List<Card> hand = new ArrayList<>();
+	public List<Card> hand;
 
 	public Hand() {
+		hand = new ArrayList<>();
 	}
 
 	public void addCard(Card card) {

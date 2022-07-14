@@ -8,7 +8,5 @@ public interface PlayerLogic {
 	
 	boolean isBust();
 	
-	void hit(Card card);
-	
 	void stay();
 }
